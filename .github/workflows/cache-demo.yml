@@ -1,0 +1,27 @@
+name: Cache Dependencies Demo
+
+on:
+  workflow_dispatch:  # manual trigger
+
+jobs:
+  cache-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prime cache
+        uses: actions/cache@v4
+        id: cache-step
+        with:
+          path: ~/.cache/pip
+          key: cache-de597cc
+
+      - name: prime-cache-de597cc
+        run: |
+          if [ -n "${{ steps.cache-step.outputs.cache-hit }}" ]; then
+            echo "Cache hit!"
+          else
+            echo "Cache miss!"
+          fi
